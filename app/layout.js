@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Bingo 5x5",
-  description: "เกมบิงโก กระดาน 5x5",
+  title: "Bingo 4x4",
+  description: "เกมบิงโก กระดาน 4x4",
 };
 
 export default function RootLayout({ children }) {

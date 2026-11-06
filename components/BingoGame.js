@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { FREE_INDEX, MAX_NUMBER, SIZE, generateBoard, getCompletedLines } from "@/lib/bingo";
+import { MAX_NUMBER, SIZE, generateBoard, getCompletedLines } from "@/lib/bingo";
 
 const STORAGE_KEY = "bingo-player";
 
@@ -24,7 +24,7 @@ export default function BingoGame() {
     else localStorage.removeItem(STORAGE_KEY);
   };
 
-  const marked = useMemo(() => new Set([FREE_INDEX, ...(player?.marked ?? [])]), [player]);
+  const marked = useMemo(() => new Set(player?.marked ?? []), [player]);
   const completed = useMemo(() => getCompletedLines(marked), [marked]);
   const winCells = useMemo(() => new Set(completed.flat()), [completed]);
 
@@ -35,7 +35,6 @@ export default function BingoGame() {
   };
 
   const toggle = (i) => {
-    if (i === FREE_INDEX) return;
     const next = player.marked.includes(i) ? player.marked.filter((x) => x !== i) : [...player.marked, i];
     save({ ...player, marked: next });
   };
@@ -90,10 +89,10 @@ export default function BingoGame() {
         {player.board.map((n, i) => (
           <button
             key={i}
-            className={`cell${i === FREE_INDEX ? " free" : ""}${marked.has(i) ? " marked" : ""}${winCells.has(i) ? " win" : ""}`}
+            className={`cell${marked.has(i) ? " marked" : ""}${winCells.has(i) ? " win" : ""}`}
             onClick={() => toggle(i)}
           >
-            {i === FREE_INDEX ? "FREE" : n}
+            {n}
           </button>
         ))}
       </div>
